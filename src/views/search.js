@@ -1,9 +1,9 @@
-import {Button} from 'react-native';
-import * as React from 'react';
+import { Button } from 'react-native'
+import * as React from 'react'
 
-import BoxCenter from '../components/box-center';
+import BoxCenter from '../components/box-center'
 
-function SearchView({navigation}) {
+function SearchView({ navigation }) {
   return (
     <BoxCenter>
       <Button
@@ -11,7 +11,7 @@ function SearchView({navigation}) {
         onPress={() => navigation.navigate('Detail')}
       />
     </BoxCenter>
-  );
+  )
 }
 
-export default SearchView;
+export default SearchView

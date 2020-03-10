@@ -1,5 +1,5 @@
-import * as React from 'react';
-import Svg, {Path} from 'react-native-svg';
+import * as React from 'react'
+import Svg, { Path } from 'react-native-svg'
 
 function SvgRotateCcw(props) {
   return (
@@ -13,11 +13,12 @@ function SvgRotateCcw(props) {
       strokeLinecap="round"
       strokeLinejoin="round"
       className=""
-      {...props}>
+      {...props}
+    >
       <Path d="M1 4v6h6" />
       <Path d="M3.51 15a9 9 0 102.13-9.36L1 10" />
     </Svg>
-  );
+  )
 }
 
-export default SvgRotateCcw;
+export default SvgRotateCcw

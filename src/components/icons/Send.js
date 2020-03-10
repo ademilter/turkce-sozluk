@@ -1,5 +1,5 @@
-import * as React from 'react';
-import Svg, {Path} from 'react-native-svg';
+import * as React from 'react'
+import Svg, { Path } from 'react-native-svg'
 
 function SvgSend(props) {
   return (
@@ -13,10 +13,11 @@ function SvgSend(props) {
       strokeLinecap="round"
       strokeLinejoin="round"
       className=""
-      {...props}>
+      {...props}
+    >
       <Path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
     </Svg>
-  );
+  )
 }
 
-export default SvgSend;
+export default SvgSend

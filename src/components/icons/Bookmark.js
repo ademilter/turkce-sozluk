@@ -1,5 +1,5 @@
-import * as React from 'react';
-import Svg, {Path} from 'react-native-svg';
+import * as React from 'react'
+import Svg, { Path } from 'react-native-svg'
 
 function SvgBookmark(props) {
   return (
@@ -13,10 +13,11 @@ function SvgBookmark(props) {
       strokeLinecap="round"
       strokeLinejoin="round"
       className=""
-      {...props}>
+      {...props}
+    >
       <Path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z" />
     </Svg>
-  );
+  )
 }
 
-export default SvgBookmark;
+export default SvgBookmark
