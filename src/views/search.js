@@ -7,7 +7,7 @@ import { Logo } from '../components/icons'
 
 function SearchView({ navigation }) {
   return (
-    <BoxCenter>
+    <BoxCenter bg="atasozleriLight">
       <Button
         title="Go to Details"
         onPress={() => navigation.navigate('Detail')}
