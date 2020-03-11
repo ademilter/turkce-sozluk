@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
 
-function SvgBookmark(props) {
+function SvgClose(props) {
   return (
     <Svg
       width={24}
@@ -15,9 +15,9 @@ function SvgBookmark(props) {
       className=""
       {...props}
     >
-      <Path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z" />
+      <Path d="M18 6L6 18M6 6l12 12" />
     </Svg>
   )
 }
 
-export default SvgBookmark
+export default SvgClose
