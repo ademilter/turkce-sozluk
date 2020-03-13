@@ -1,5 +1,4 @@
 import React from 'react'
-import { View } from 'react-native'
 
 import Button from './button'
 import { Search, Bookmark, RotateCcw } from './icons'
@@ -9,7 +8,16 @@ import theme from '../utils/theme'
 
 function TabBar({ state, descriptors, navigation }) {
   return (
-    <View style={{ flexDirection: 'row' }}>
+    <Box
+      pb={20}
+      bg="white"
+      flexDirection="row"
+      style={{
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowRadius: 20
+      }}
+    >
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key]
 
@@ -34,12 +42,14 @@ function TabBar({ state, descriptors, navigation }) {
         }
 
         return label === 'Search' ? (
+          // search button
           <Box key={label} p={15} mt={-15} bg="white" borderRadius="full">
             <Button size={56} bg="red" borderRadius="full" onPress={onPress}>
               <Search stroke="white" />
             </Button>
           </Box>
         ) : (
+          // tab-button
           <Button
             key={label}
             pt={6}
@@ -49,16 +59,27 @@ function TabBar({ state, descriptors, navigation }) {
             onPress={onPress}
           >
             {label === 'History' && (
-              <RotateCcw color={theme.colors.textLight} />
+              <RotateCcw
+                color={isFocused ? theme.colors.red : theme.colors.textLight}
+              />
             )}
             {label === 'Favorite' && (
-              <Bookmark color={theme.colors.textLight} />
+              <Bookmark
+                color={isFocused ? theme.colors.red : theme.colors.textLight}
+              />
             )}
-            <Box size={3} bg={isFocused ? 'red' : 'white'} mt={6} />
+
+            {/* indicator */}
+            <Box
+              size={4}
+              bg={isFocused ? 'red' : 'white'}
+              mt={6}
+              borderRadius="full"
+            />
           </Button>
         )
       })}
-    </View>
+    </Box>
   )
 }
 
