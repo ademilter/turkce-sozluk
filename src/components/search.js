@@ -9,9 +9,26 @@ import theme from '../utils/theme'
 import Text from './text'
 import Button from './button'
 
-function SearchBox() {
+function SearchBox({ onChangeFocus }) {
   const [value, setValue] = React.useState('')
   const [isFocus, setFocus] = React.useState(false)
+
+  React.useEffect(() => {
+    Keyboard.addListener('keyboardDidShow', keyboardDidShow)
+    Keyboard.addListener('keyboardDidHide', keyboardDidHide)
+    return function() {
+      Keyboard.removeListener('keyboardDidShow', keyboardDidShow)
+      Keyboard.removeListener('keyboardDidHide', keyboardDidHide)
+    }
+  })
+
+  const keyboardDidShow = () => {
+    onChangeFocus(true)
+  }
+
+  const keyboardDidHide = () => {
+    onChangeFocus(false)
+  }
 
   const onCancel = () => {
     setFocus(false)
