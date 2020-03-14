@@ -10,6 +10,7 @@ import Bg from '../components/bg'
 
 import Text from '../components/text'
 import { CardContainer, CardSummary, CardTitle } from '../components/card'
+import { SimpleCardContainer, SimpleCardTitle } from '../components/simple-card'
 
 const DATA = [
   {
@@ -85,8 +86,24 @@ function SearchView({ navigation }) {
       {/* content */}
       <Box flex={1} bg="softRed" pt={isSearchFocus ? 0 : 26}>
         {isSearchFocus ? (
-          <Box p={30} flex={1}>
-            <Text>History</Text>
+          <Box flex={1}>
+            <FlatList
+              style={{ padding: 16 }}
+              data={DATA}
+              keyExtractor={item => item.id}
+              renderItem={({ item }) => (
+                <Box py={6}>
+                  <SimpleCardContainer>
+                    <SimpleCardTitle>{item.title}</SimpleCardTitle>
+                  </SimpleCardContainer>
+                </Box>
+              )}
+              ListHeaderComponent={
+                <Text color="textLight" mb={10}>
+                  Son Aramalar
+                </Text>
+              }
+            />
           </Box>
         ) : (
           <Box px={16} py={40} flex={1}>
@@ -115,19 +132,6 @@ function SearchView({ navigation }) {
                 </CardSummary>
               </CardContainer>
             </Box>
-
-            {/*<FlatList*/}
-            {/*  data={DATA}*/}
-            {/*  renderItem={({ item }) => (*/}
-            {/*    <Box py={5}>*/}
-            {/*      <CardContainer>*/}
-            {/*        <CardTitle>{item.title}</CardTitle>*/}
-            {/*        <CardSummary>{item.summary}</CardSummary>*/}
-            {/*      </CardContainer>*/}
-            {/*    </Box>*/}
-            {/*  )}*/}
-            {/*  keyExtractor={item => item.id}*/}
-            {/*/>*/}
           </Box>
         )}
       </Box>
