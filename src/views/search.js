@@ -30,23 +30,38 @@ const DATA = [
   }
 ]
 
+const HERO_HEIGHT = 230
+
 function SearchView({ navigation }) {
-  const [heroHeight] = React.useState(new Animated.Value(285))
+  const [bgOpacity] = React.useState(new Animated.Value(1))
+  const [heroHeight] = React.useState(new Animated.Value(HERO_HEIGHT))
   const [isSearchFocus, setSearchFocus] = React.useState(false)
 
   React.useEffect(() => {
     if (isSearchFocus) {
+      // bg-opacity
+      Animated.timing(bgOpacity, {
+        toValue: 0,
+        duration: 230
+      }).start()
+      // hero-height
       Animated.timing(heroHeight, {
         toValue: 52 + 32,
         duration: 230
       }).start()
     } else {
+      // bg-opacity
+      Animated.timing(bgOpacity, {
+        toValue: 1,
+        duration: 230
+      }).start()
+      // hero-height
       Animated.timing(heroHeight, {
-        toValue: 285,
+        toValue: HERO_HEIGHT,
         duration: 230
       }).start()
     }
-  }, [heroHeight, isSearchFocus])
+  }, [bgOpacity, heroHeight, isSearchFocus])
 
   useFocusEffect(
     React.useCallback(() => {
@@ -63,13 +78,13 @@ function SearchView({ navigation }) {
         zIndex={1}
         height={heroHeight}
       >
-        {!isSearchFocus && (
-          <Bg>
+        <Box mt={-60} as={Animated.View} opacity={bgOpacity}>
+          <Bg pt={60} pb={26}>
             <Box flex={1} alignItems="center" justifyContent="center">
               <Logo width={120} color="white" />
             </Box>
           </Bg>
-        )}
+        </Box>
 
         {/* search */}
         <Box
