@@ -70,7 +70,7 @@ function SearchView({ navigation }) {
   )
 
   return (
-    <Box as={SafeAreaView} bg={isSearchFocus ? 'softRed' : 'red'} flex={1}>
+    <Box as={SafeAreaView} bg="softRed" flex={1}>
       {/* Header */}
       <Box
         as={Animated.View}
