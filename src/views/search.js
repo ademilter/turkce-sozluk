@@ -9,8 +9,27 @@ import Box from '../components/box'
 import Bg from '../components/bg'
 
 import Text from '../components/text'
+import { CardContainer, CardSummary, CardTitle } from '../components/card'
 
-function SearchView() {
+const DATA = [
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    title: 'First Item 1',
+    summary: 'açıklama 1'
+  },
+  {
+    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+    title: 'Second Item 2',
+    summary: 'açıklama 2'
+  },
+  {
+    id: '58694a0f-3da1-471f-bd96-145571e29d72',
+    title: 'Third Item 3',
+    summary: 'açıklama 3'
+  }
+]
+
+function SearchView({ navigation }) {
   const [heroHeight] = React.useState(new Animated.Value(285))
   const [isSearchFocus, setSearchFocus] = React.useState(false)
 
@@ -64,14 +83,51 @@ function SearchView() {
       </Box>
 
       {/* content */}
-      <Box flex={1} bg="white" pt={isSearchFocus ? 0 : 26}>
+      <Box flex={1} bg="softRed" pt={isSearchFocus ? 0 : 26}>
         {isSearchFocus ? (
           <Box p={30} flex={1}>
             <Text>History</Text>
           </Box>
         ) : (
-          <Box p={30} flex={1}>
-            <Text>Öneri</Text>
+          <Box px={16} py={40} flex={1}>
+            <Box>
+              <Text color="textLight">Bir Deyim</Text>
+
+              <CardContainer
+                mt={10}
+                onPress={() => navigation.navigate('Detail')}
+              >
+                <CardTitle>on para</CardTitle>
+                <CardSummary>çok az (para).</CardSummary>
+              </CardContainer>
+            </Box>
+
+            <Box mt={40}>
+              <Text color="textLight">Bir deyim - Atasözü</Text>
+
+              <CardContainer
+                mt={10}
+                onPress={() => navigation.navigate('Detail')}
+              >
+                <CardTitle>siyem siyem ağlamak</CardTitle>
+                <CardSummary>
+                  hafif hafif, ince ince, durmadan gözyaşı dökmek.
+                </CardSummary>
+              </CardContainer>
+            </Box>
+
+            {/*<FlatList*/}
+            {/*  data={DATA}*/}
+            {/*  renderItem={({ item }) => (*/}
+            {/*    <Box py={5}>*/}
+            {/*      <CardContainer>*/}
+            {/*        <CardTitle>{item.title}</CardTitle>*/}
+            {/*        <CardSummary>{item.summary}</CardSummary>*/}
+            {/*      </CardContainer>*/}
+            {/*    </Box>*/}
+            {/*  )}*/}
+            {/*  keyExtractor={item => item.id}*/}
+            {/*/>*/}
           </Box>
         )}
       </Box>

@@ -5,6 +5,7 @@ import {
   color,
   size,
   space,
+  border,
   flexbox,
   borderRadius
 } from 'styled-system'
@@ -13,6 +14,7 @@ const Box = styled(View)(
   compose(
     flexbox,
     space,
+    border,
     color,
     size,
     borderRadius
