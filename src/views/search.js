@@ -127,7 +127,9 @@ function SearchView({ navigation }) {
 
               <CardContainer
                 mt={10}
-                onPress={() => navigation.navigate('Detail')}
+                onPress={() =>
+                  navigation.navigate('Detail', { title: 'on para' })
+                }
               >
                 <CardTitle>on para</CardTitle>
                 <CardSummary>çok az (para).</CardSummary>
@@ -139,7 +141,11 @@ function SearchView({ navigation }) {
 
               <CardContainer
                 mt={10}
-                onPress={() => navigation.navigate('Detail')}
+                onPress={() =>
+                  navigation.navigate('Detail', {
+                    title: 'Siyem siyem ağlamak'
+                  })
+                }
               >
                 <CardTitle>siyem siyem ağlamak</CardTitle>
                 <CardSummary>

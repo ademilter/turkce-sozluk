@@ -13,7 +13,7 @@ function DetailView() {
   )
 
   return (
-    <Box as={SafeAreaView} flex={1}>
+    <Box as={SafeAreaView} bg="softRed" p={16} flex={1}>
       <Text>Detay</Text>
     </Box>
   )
