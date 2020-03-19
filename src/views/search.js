@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { StatusBar, Animated, FlatList } from 'react-native'
+import { StatusBar, Animated, FlatList, ActivityIndicator } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { useFocusEffect } from '@react-navigation/native'
 
@@ -36,6 +36,17 @@ function SearchView({ navigation }) {
   const [bgOpacity] = React.useState(new Animated.Value(1))
   const [heroHeight] = React.useState(new Animated.Value(HERO_HEIGHT))
   const [isSearchFocus, setSearchFocus] = React.useState(false)
+  const [homeData, setHomeData] = React.useState(null)
+
+  const getHomeData = async () => {
+    const response = await fetch('https://sozluk.gov.tr/icerik')
+    const data = await response.json()
+    setHomeData(data)
+  }
+
+  React.useEffect(() => {
+    getHomeData()
+  }, [])
 
   React.useEffect(() => {
     if (isSearchFocus) {
@@ -78,7 +89,7 @@ function SearchView({ navigation }) {
         zIndex={1}
         height={heroHeight}
       >
-        <Box mt={-60} as={Animated.View} opacity={bgOpacity}>
+        <Box mt={-60} as={Animated.View} style={{ opacity: bgOpacity }}>
           <Bg pt={60} pb={26}>
             <Box flex={1} alignItems="center" justifyContent="center">
               <Logo width={120} color="white" />
@@ -123,7 +134,7 @@ function SearchView({ navigation }) {
         ) : (
           <Box px={16} py={40} flex={1}>
             <Box>
-              <Text color="textLight">Bir Deyim</Text>
+              <Text color="textLight">Bir Kelime</Text>
 
               <CardContainer
                 mt={10}
@@ -131,8 +142,14 @@ function SearchView({ navigation }) {
                   navigation.navigate('Detail', { title: 'on para' })
                 }
               >
-                <CardTitle>on para</CardTitle>
-                <CardSummary>çok az (para).</CardSummary>
+                {homeData ? (
+                  <>
+                    <CardTitle>{homeData?.kelime[0].madde}</CardTitle>
+                    <CardSummary>{homeData?.kelime[0].anlam}</CardSummary>
+                  </>
+                ) : (
+                  <ActivityIndicator />
+                )}
               </CardContainer>
             </Box>
 
@@ -147,10 +164,14 @@ function SearchView({ navigation }) {
                   })
                 }
               >
-                <CardTitle>siyem siyem ağlamak</CardTitle>
-                <CardSummary>
-                  hafif hafif, ince ince, durmadan gözyaşı dökmek.
-                </CardSummary>
+                {homeData ? (
+                  <>
+                    <CardTitle>{homeData?.atasoz[0].madde}</CardTitle>
+                    <CardSummary>{homeData?.atasoz[0].anlam}</CardSummary>
+                  </>
+                ) : (
+                  <ActivityIndicator />
+                )}
               </CardContainer>
             </Box>
           </Box>
