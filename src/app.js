@@ -28,8 +28,7 @@ function SearchStack() {
         component={SearchView}
         options={() => {
           return {
-            headerMode: 'none',
-            header: () => {}
+            headerShown: false
           }
         }}
       />
