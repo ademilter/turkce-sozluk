@@ -3,7 +3,15 @@ import React from 'react'
 import Box from './box'
 import Text from './text'
 
-export function DetailSummaryItemContainer({ children, border, ...props }) {
+export default function DetailSummaryItem({
+  data,
+  children,
+  border,
+  ...props
+}) {
+  const type = (data?.ozelliklerListe &&
+    data.ozelliklerListe.map(_ => _.tam_adi)) || ['isim']
+
   return (
     <Box position="relative" bg="white" px={28} py={20} {...props}>
       {border && (
@@ -16,25 +24,34 @@ export function DetailSummaryItemContainer({ children, border, ...props }) {
           bg="light"
         />
       )}
-      <Box flexDirection="row">
-        <Text color="textLight" ml={-14} mr={8}>
-          1
-        </Text>
-        <Text color="red">İSİM</Text>
-      </Box>
-      <Box mt={8}>{children}</Box>
+
+      {/* body */}
+      {data ? (
+        <Box>
+          <Box flexDirection="row">
+            <Text color="textLight" ml={-14} mr={8}>
+              {data.anlam_sira}
+            </Text>
+            <Text color="red">{type.join(', ')}</Text>
+          </Box>
+          <Box mt={8}>
+            <Text fontWeight="600">{data.anlam}</Text>
+            {data.orneklerListe &&
+              data.orneklerListe.map(ornek => (
+                <Box key={ornek.ornek_id}>
+                  <Text ml={10} mt={12} color="textLight" fontWeight="500">
+                    {ornek.ornek}{' '}
+                    <Text fontWeight="700" color="textLight">
+                      {ornek.yazar_id !== '0' && `- ${ornek.yazar[0].tam_adi}`}
+                    </Text>
+                  </Text>
+                </Box>
+              ))}
+          </Box>
+        </Box>
+      ) : (
+        children
+      )}
     </Box>
-  )
-}
-
-export function DetailSummaryItemTitle({ children, ...props }) {
-  return <Text fontWeight="600">{children}</Text>
-}
-
-export function DetailSummaryItemSummary({ children, ...props }) {
-  return (
-    <Text ml={10} mt={12} color="textLight" fontWeight="500">
-      {children}
-    </Text>
   )
 }
