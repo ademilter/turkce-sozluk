@@ -7,7 +7,7 @@ import {
   space,
   border,
   flexbox,
-  borderRadius
+  borderRadius,
 } from 'styled-system'
 
 const Box = styled(View)(
@@ -17,8 +17,8 @@ const Box = styled(View)(
     border,
     color,
     size,
-    borderRadius
-  )
+    borderRadius,
+  ),
 )
 
 export default Box

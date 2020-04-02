@@ -8,7 +8,7 @@ import {
   space,
   flexbox,
   layout,
-  borderRadius
+  borderRadius,
 } from 'styled-system'
 
 const Button = styled(TouchableOpacity)(
@@ -19,14 +19,14 @@ const Button = styled(TouchableOpacity)(
     color,
     size,
     layout,
-    borderRadius
-  )
+    borderRadius,
+  ),
 )
 
 Button.defaultProps = {
   flexDirection: 'row',
   alignItems: 'center',
-  justifyContent: 'center'
+  justifyContent: 'center',
 }
 
 export default Button

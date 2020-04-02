@@ -1,20 +1,18 @@
 import React from 'react'
 
-import Text from './text'
-import Box from './box'
-import { CardContainer, CardSummary, CardTitle } from './card'
+import { Text, Box, Card } from './shared'
 import LoaderText from './LoaderText'
 
-function SuggestionCard({ title, onPress, data, ...props }) {
+const SuggestionCard = ({ title, onPress, data, ...props }) => {
   return (
     <Box {...props}>
       <Text color="textLight">{title}</Text>
 
-      <CardContainer mt={10} onPress={onPress}>
+      <Card mt={10} onPress={onPress}>
         {data ? (
           <>
-            <CardTitle>{data.madde}</CardTitle>
-            <CardSummary>{data.anlam}</CardSummary>
+            <Card.Title>{data.madde}</Card.Title>
+            <Card.Summary>{data.anlam}</Card.Summary>
           </>
         ) : (
           <Box>
@@ -22,7 +20,7 @@ function SuggestionCard({ title, onPress, data, ...props }) {
             <LoaderText width={200} mt={10} />
           </Box>
         )}
-      </CardContainer>
+      </Card>
     </Box>
   )
 }

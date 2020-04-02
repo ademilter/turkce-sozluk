@@ -6,14 +6,10 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import TabBar from './components/tab-bar'
 import { Left, More } from './components/icons'
-
-import SearchView from './views/search'
-import HistoryView from './views/history'
-import FavoriteView from './views/favorite'
-import DetailView from './views/detail'
+import { Button } from './components/shared'
+import { SearchView, HistoryView, DetailView, FavoriteView } from './views'
 
 import theme from './utils/theme'
-import Button from './components/button'
 
 const Tab = createBottomTabNavigator()
 const HomeStack = createStackNavigator()
@@ -26,7 +22,7 @@ function SearchStack() {
         component={SearchView}
         options={() => {
           return {
-            headerShown: false
+            headerShown: false,
           }
         }}
       />
@@ -38,7 +34,7 @@ function SearchStack() {
             title: route.params?.title,
             headerStyle: {
               backgroundColor: theme.colors.softRed,
-              shadowColor: 'transparent'
+              shadowColor: 'transparent',
             },
             headerLeft: () => (
               <Button
@@ -57,7 +53,7 @@ function SearchStack() {
               >
                 <More color={theme.colors.textDark} />
               </Button>
-            )
+            ),
           }
         }}
       />

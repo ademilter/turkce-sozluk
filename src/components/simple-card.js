@@ -1,9 +1,8 @@
 import React from 'react'
 
-import Text from './text'
-import Button from './button'
+import { Text, Button } from './shared'
 
-export function SimpleCardContainer({ children, ...props }) {
+const SimpleCard = ({ children, ...props }) => {
   return (
     <Button
       justifyContent="flex-start"
@@ -17,10 +16,14 @@ export function SimpleCardContainer({ children, ...props }) {
   )
 }
 
-export function SimpleCardTitle({ children }) {
+const Title = ({ children }) => {
   return (
     <Text fontSize={16} fontWeight="bold">
       {children}
     </Text>
   )
 }
+
+SimpleCard.Title = Title
+
+export default SimpleCard

@@ -1,14 +1,8 @@
 import React from 'react'
 
-import Box from './box'
-import Text from './text'
+import { Box, Text } from './shared'
 
-export default function DetailSummaryItem({
-  data,
-  children,
-  border,
-  ...props
-}) {
+const DetailSummaryItem = ({ data, children, border, ...props }) => {
   const type = (data?.ozelliklerListe &&
     data.ozelliklerListe.map(_ => _.tam_adi)) || ['isim']
 
@@ -55,3 +49,5 @@ export default function DetailSummaryItem({
     </Box>
   )
 }
+
+export default DetailSummaryItem

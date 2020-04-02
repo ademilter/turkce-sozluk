@@ -1,21 +1,21 @@
 import React from 'react'
 
-import Button from './button'
 import { Search, Bookmark, RotateCcw } from './icons'
-import Box from './box'
+import { Box, Button } from './shared'
 
 import theme from '../utils/theme'
 
-function TabBar({ state, descriptors, navigation }) {
+const TabBar = ({ state, descriptors, navigation }) => {
   return (
     <Box
       pb={20}
       bg="white"
       flexDirection="row"
+      // eslint-disable-next-line react-native/no-inline-styles
       style={{
         shadowColor: '#000',
         shadowOpacity: 0.1,
-        shadowRadius: 20
+        shadowRadius: 20,
       }}
     >
       {state.routes.map((route, index) => {
@@ -33,7 +33,7 @@ function TabBar({ state, descriptors, navigation }) {
         const onPress = () => {
           const event = navigation.emit({
             type: 'tabPress',
-            target: route.key
+            target: route.key,
           })
 
           if (!isFocused && !event.defaultPrevented) {

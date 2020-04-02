@@ -1,7 +1,9 @@
 import React from 'react'
 
-import Box from './box'
+import { Box } from './shared'
 
-export default function LoaderText({ ...props }) {
+const LoaderText = ({ ...props }) => {
   return <Box bg="light" width={120} height={16} {...props} />
 }
+
+export default LoaderText

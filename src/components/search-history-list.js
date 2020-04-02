@@ -1,21 +1,21 @@
 import React from 'react'
 import { FlatList } from 'react-native'
 
-import Box from './box'
-import Text from './text'
-import { SimpleCardContainer, SimpleCardTitle } from './simple-card'
+import { Box, Text } from './shared'
+import SimpleCard from './simple-card'
 
-function SearchHistoryList({ data }) {
+const SearchHistoryList = ({ data }) => {
   return (
     <FlatList
+      // eslint-disable-next-line react-native/no-inline-styles
       style={{ padding: 16 }}
       data={data}
       keyExtractor={item => item.id}
       renderItem={({ item }) => (
         <Box py={6}>
-          <SimpleCardContainer>
-            <SimpleCardTitle>{item.title}</SimpleCardTitle>
-          </SimpleCardContainer>
+          <SimpleCard>
+            <SimpleCard.Title>{item.title}</SimpleCard.Title>
+          </SimpleCard>
         </Box>
       )}
       ListHeaderComponent={

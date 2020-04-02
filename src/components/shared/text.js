@@ -7,8 +7,8 @@ const Text = styled(T)(
     typography,
     space,
     color,
-    size
-  )
+    size,
+  ),
 )
 
 export default Text

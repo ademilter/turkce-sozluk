@@ -1,11 +1,20 @@
-import { Text, View } from 'react-native'
-import * as React from 'react'
+import React, { useCallback } from 'react'
+import { StatusBar } from 'react-native'
+import SafeAreaView from 'react-native-safe-area-view'
+import { useFocusEffect } from '@react-navigation/native'
+import { Box, Text } from '../components/shared'
 
-function FavoriteView() {
+const FavoriteView = () => {
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle('dark-content')
+    }, []),
+  )
+
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <Box as={SafeAreaView} flex={1}>
       <Text>Favoriler</Text>
-    </View>
+    </Box>
   )
 }
 

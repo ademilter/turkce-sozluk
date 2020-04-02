@@ -1,19 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Keyboard } from 'react-native'
 
-import Box from './box'
-import Input from './input'
+import { Box, Input, Text, Button } from './shared'
 import { Search, Close } from './icons'
 
 import theme from '../utils/theme'
-import Text from './text'
-import Button from './button'
 
-function SearchBox({ onChangeFocus }) {
-  const [value, setValue] = React.useState('')
-  const [isFocus, setFocus] = React.useState(false)
+const SearchBox = ({ onChangeFocus }) => {
+  const [value, setValue] = useState('')
+  const [isFocus, setFocus] = useState(false)
 
-  React.useEffect(() => {
+  useEffect(() => {
     onChangeFocus(isFocus)
   }, [isFocus, onChangeFocus])
 
@@ -29,14 +26,15 @@ function SearchBox({ onChangeFocus }) {
     <Box flexDirection="row" alignItems="center">
       <Box position="relative" flex={1}>
         <Input
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{
             shadowColor: '#000',
             shadowOpacity: 0.1,
             shadowRadius: 24,
             shadowOffset: {
               width: 0,
-              height: 4
-            }
+              height: 4,
+            },
           }}
           bg="white"
           height={52}

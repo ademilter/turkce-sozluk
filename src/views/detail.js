@@ -1,16 +1,15 @@
-import * as React from 'react'
+import React from 'react'
 import { StatusBar, ScrollView } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { useFocusEffect } from '@react-navigation/native'
 
-import Box from '../components/box'
-import Text from '../components/text'
+import { Box, Text } from '../components/shared'
+import LoaderText from '../components/LoaderText'
 import { Sound, Hand, Favorite } from '../components/icons'
-import ActionButton, { ActionButtonTitle } from '../components/action-button'
+import ActionButton from '../components/action-button'
 import DetailSummaryItem from '../components/detail-summary-item'
 
 import theme from '../utils/theme'
-import LoaderText from '../components/LoaderText'
 
 function DetailView({ route }) {
   const keyword = route.params?.keyword
@@ -21,18 +20,18 @@ function DetailView({ route }) {
   useFocusEffect(
     React.useCallback(() => {
       StatusBar.setBarStyle('dark-content')
-    }, [])
+    }, []),
   )
 
-  const getDetailData = async () => {
-    const response = await fetch(`https://sozluk.gov.tr/gts?ara=${keyword}`)
-    const data = await response.json()
-    setData(data[0])
+  const getDetailData = async k => {
+    const response = await fetch(`https://sozluk.gov.tr/gts?ara=${k}`)
+    const d = await response.json()
+    setData(d[0])
   }
 
   React.useEffect(() => {
-    getDetailData()
-  }, [])
+    getDetailData(keyword)
+  }, [keyword])
 
   return (
     <Box as={SafeAreaView} bg="softRed" flex={1}>
@@ -56,7 +55,7 @@ function DetailView({ route }) {
           </ActionButton>
           <ActionButton disabled={!data} ml="auto">
             <Hand width={24} height={24} color={theme.colors.textLight} />
-            <ActionButtonTitle>Türk İşaret Dili</ActionButtonTitle>
+            <ActionButton.Title>Türk İşaret Dili</ActionButton.Title>
           </ActionButton>
         </Box>
         <Box mt={32}>

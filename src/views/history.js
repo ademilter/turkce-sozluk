@@ -1,15 +1,15 @@
-import { Text, StatusBar } from 'react-native'
-import * as React from 'react'
+import React, { useCallback } from 'react'
+import { StatusBar } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { useFocusEffect } from '@react-navigation/native'
 
-import Box from '../components/box'
+import { Box, Text } from '../components/shared'
 
-function HistoryView() {
+const HistoryView = () => {
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       StatusBar.setBarStyle('dark-content')
-    }, [])
+    }, []),
   )
 
   return (

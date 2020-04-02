@@ -9,7 +9,7 @@
     "pod": "cd ios; pod install; cd ..",
     "test": "jest",
     "lint": "eslint .",
-    "svgr": "svgr ./src/icons -d ./src/components/icons --native --svg-props 'className=' --svgo-config .svgorc.json"
+    "svgr": "svgr ./src/assets/icons -d ./src/components/icons --native --svg-props 'className=' --svgo-config .svgorc.json"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.7",
@@ -19,10 +19,13 @@
     "react": "16.9.0",
     "react-native": "0.61.5",
     "react-native-gesture-handler": "^1.6.0",
+    "react-native-linear-gradient": "^2.5.6",
     "react-native-reanimated": "^1.7.0",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-safe-area-view": "^1.0.0",
     "react-native-screens": "^2.2.0",
+    "react-native-shimmer-placeholder": "^1.0.35",
+    "react-native-sound": "^0.11.0",
     "react-native-svg": "^12.0.3",
     "styled-components": "^5.0.1",
     "styled-system": "^5.1.5"
