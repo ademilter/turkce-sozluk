@@ -8,7 +8,7 @@ const SearchHistoryList = ({ data }) => {
   return (
     <FlatList
       // eslint-disable-next-line react-native/no-inline-styles
-      style={{ padding: 16 }}
+      style={{ padding: 16, paddingTop: 24 }}
       data={data}
       keyExtractor={item => item.id}
       renderItem={({ item }) => (

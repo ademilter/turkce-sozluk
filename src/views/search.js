@@ -55,7 +55,7 @@ const SearchView = ({ navigation }) => {
       />
 
       {/* content */}
-      <Box flex={1} bg="softRed" pt={isSearchFocus ? 0 : 26}>
+      <Box flex={1} bg="softRed" pt={isSearchFocus ? 48 : 26}>
         {isSearchFocus ? (
           <Box flex={1}>
             <SearchHistoryList data={DATA} />

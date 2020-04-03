@@ -51,7 +51,7 @@ const HomeSearch = ({ isSearchFocus, onSearchFocus }) => {
       <Box
         position="absolute"
         left={0}
-        bottom={isSearchFocus ? 0 : -42}
+        bottom={isSearchFocus ? -48 - 16 : -42}
         p={16}
         width="100%"
       >
