@@ -14,9 +14,9 @@ import theme from './utils/theme'
 const Tab = createBottomTabNavigator()
 const HomeStack = createStackNavigator()
 
-function SearchStack({ route, navigation }) {
+const SearchStack = ({ route, navigation }) => {
   useEffect(() => {
-    console.log(route)
+    console.log('search stack route', route)
   }, [route])
   return (
     <HomeStack.Navigator>

@@ -34,7 +34,8 @@ const SearchView = ({ navigation }) => {
 
   useEffect(() => {
     homeData.setData()
-  }, [homeData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useFocusEffect(
     useCallback(() => {
