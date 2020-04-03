@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Box, Text } from './shared'
+import { Box, Text, Placeholder } from './shared'
 
 const DetailSummaryItem = ({ data, children, border, ...props }) => {
   const type = (data?.ozelliklerListe &&
@@ -20,18 +20,23 @@ const DetailSummaryItem = ({ data, children, border, ...props }) => {
       )}
 
       {/* body */}
-      {data ? (
-        <Box>
+      <Box>
+        <Placeholder autoRun visible={data ? true : false} width={100}>
           <Box flexDirection="row">
             <Text color="textLight" ml={-14} mr={8}>
-              {data.anlam_sira}
+              {data?.anlam_sira}
             </Text>
             <Text color="red">{type.join(', ')}</Text>
           </Box>
-          <Box mt={8}>
-            <Text fontWeight="600">{data.anlam}</Text>
-            {data.orneklerListe &&
-              data.orneklerListe.map(ornek => (
+        </Placeholder>
+
+        <Box mt={8}>
+          <Placeholder autoRun visible={data ? true : false} width={240}>
+            <Text fontWeight="600">{data?.anlam}</Text>
+          </Placeholder>
+          <Placeholder autoRun visible={data ? true : false} width={160} mt={4}>
+            {data?.orneklerListe &&
+              data?.orneklerListe.map(ornek => (
                 <Box key={ornek.ornek_id}>
                   <Text ml={10} mt={12} color="textLight" fontWeight="500">
                     {ornek.ornek}{' '}
@@ -41,11 +46,9 @@ const DetailSummaryItem = ({ data, children, border, ...props }) => {
                   </Text>
                 </Box>
               ))}
-          </Box>
+          </Placeholder>
         </Box>
-      ) : (
-        children
-      )}
+      </Box>
     </Box>
   )
 }

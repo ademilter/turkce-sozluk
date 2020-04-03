@@ -1,25 +1,25 @@
 import React from 'react'
-
-import { Text, Box, Card } from './shared'
-import LoaderText from './LoaderText'
+import { Text, Box, Card, Placeholder } from './shared'
 
 const SuggestionCard = ({ title, onPress, data, ...props }) => {
   return (
     <Box {...props}>
       <Text color="textLight">{title}</Text>
 
-      <Card mt={10} onPress={onPress}>
-        {data ? (
-          <>
-            <Card.Title>{data.madde}</Card.Title>
-            <Card.Summary>{data.anlam}</Card.Summary>
-          </>
-        ) : (
-          <Box>
-            <LoaderText />
-            <LoaderText width={200} mt={10} />
-          </Box>
-        )}
+      <Card mt={10} disabled={data ? false : true} onPress={onPress}>
+        <>
+          <Placeholder autoRun visible={data ? true : false}>
+            <Card.Title>{data?.madde}</Card.Title>
+          </Placeholder>
+          <Placeholder
+            autoRun
+            visible={data ? true : false}
+            mt={16}
+            width={240}
+          >
+            <Card.Summary>{data?.anlam}</Card.Summary>
+          </Placeholder>
+        </>
       </Card>
     </Box>
   )

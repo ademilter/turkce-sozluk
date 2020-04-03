@@ -4,7 +4,6 @@ import SafeAreaView from 'react-native-safe-area-view'
 import { useFocusEffect } from '@react-navigation/native'
 
 import { Box, Text } from '../components/shared'
-import LoaderText from '../components/LoaderText'
 import { Sound, Hand, Favorite } from '../components/icons'
 import ActionButton from '../components/action-button'
 import DetailSummaryItem from '../components/detail-summary-item'
@@ -59,20 +58,13 @@ function DetailView({ route }) {
           </ActionButton>
         </Box>
         <Box mt={32}>
-          {data
-            ? data.anlamlarListe.map(item => (
-                <DetailSummaryItem
-                  key={item.anlam_sira}
-                  data={item}
-                  border={item.anlam_sira !== '1'}
-                />
-              ))
-            : [1, 2, 3].map(index => (
-                <DetailSummaryItem key={index} border={index !== 1}>
-                  <LoaderText />
-                  <LoaderText width={200} mt={10} />
-                </DetailSummaryItem>
-              ))}
+          {(data?.anlamlarListe ?? [1, 2, 3]).map(item => (
+            <DetailSummaryItem
+              key={item?.anlam_sira ?? item}
+              data={typeof item === 'number' ? undefined : item}
+              border={(item.anlam_sira ?? item) !== '1'}
+            />
+          ))}
         </Box>
       </Box>
     </Box>

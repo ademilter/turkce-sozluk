@@ -63,21 +63,21 @@ const SearchView = ({ navigation }) => {
         ) : (
           <Box px={16} py={40} flex={1}>
             <SuggestionCard
-              data={homeData?.kelime[0]}
+              data={homeData?.kelime?.[0]}
               title="Bir Kelime"
               onPress={() =>
                 navigation.navigate('Detail', {
-                  keyword: homeData?.kelime[0].madde,
+                  keyword: homeData?.kelime?.[0]?.madde,
                 })
               }
             />
             <SuggestionCard
               mt={40}
-              data={homeData?.atasoz[0]}
+              data={homeData?.atasoz?.[0]}
               title="Bir Deyim - Atasözü"
               onPress={() =>
                 navigation.navigate('Detail', {
-                  keyword: homeData?.atasoz[0].madde,
+                  keyword: homeData?.atasoz?.[0]?.madde,
                 })
               }
             />
