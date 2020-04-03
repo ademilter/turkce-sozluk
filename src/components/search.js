@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { Keyboard } from 'react-native'
-import { Animated, View } from 'react-native'
+import { Animated, Keyboard } from 'react-native'
 import { Box, Input, Text, Button } from './shared'
 import { Search, Close } from './icons'
 import SpecialCharacters from './special-characters'

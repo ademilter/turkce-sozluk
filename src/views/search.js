@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useContext } from 'react'
 import { StatusBar } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { useFocusEffect } from '@react-navigation/native'
@@ -7,6 +7,8 @@ import { Box } from '../components/shared'
 import SuggestionCard from '../components/suggestion-card'
 import SearchHistoryList from '../components/search-history-list'
 import HomeSearch from '../components/home-search'
+
+import homeContext from '../context/home'
 
 const DATA = [
   {
@@ -27,18 +29,12 @@ const DATA = [
 ]
 
 const SearchView = ({ navigation }) => {
+  const homeData = useContext(homeContext)
   const [isSearchFocus, setSearchFocus] = useState(false)
-  const [homeData, setHomeData] = useState(null)
-
-  const getHomeData = async () => {
-    const response = await fetch('https://sozluk.gov.tr/icerik')
-    const data = await response.json()
-    setHomeData(data)
-  }
 
   useEffect(() => {
-    getHomeData()
-  }, [])
+    homeData.setData()
+  }, [homeData])
 
   useFocusEffect(
     useCallback(() => {
@@ -63,21 +59,21 @@ const SearchView = ({ navigation }) => {
         ) : (
           <Box px={16} py={40} flex={1}>
             <SuggestionCard
-              data={homeData?.kelime?.[0]}
+              data={homeData.data?.kelime}
               title="Bir Kelime"
               onPress={() =>
                 navigation.navigate('Detail', {
-                  keyword: homeData?.kelime?.[0]?.madde,
+                  keyword: homeData.data?.kelime?.madde,
                 })
               }
             />
             <SuggestionCard
               mt={40}
-              data={homeData?.atasoz?.[0]}
+              data={homeData.data?.atasoz}
               title="Bir Deyim - Atasözü"
               onPress={() =>
                 navigation.navigate('Detail', {
-                  keyword: homeData?.atasoz?.[0]?.madde,
+                  keyword: homeData.data?.atasoz?.madde,
                 })
               }
             />
