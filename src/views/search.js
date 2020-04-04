@@ -72,7 +72,7 @@ const SearchView = ({ navigation }) => {
                   })
                 }
                 keyword={searchData.keyword}
-                data={searchData.getSuggestions()}
+                data={searchData.suggestions}
               />
             ) : (
               <SearchHistoryList

@@ -2,8 +2,8 @@ import { createContext } from 'react'
 
 export const searchContextDefault = {
   keyword: '',
+  suggestions: [],
   setKeyword: () => {},
-  getSuggestions: () => {},
 }
 
 const searchContext = createContext(searchContextDefault)
