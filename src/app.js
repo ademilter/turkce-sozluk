@@ -64,7 +64,10 @@ const App = () => {
       try {
         const item = { id: Date.now() + '', title: k }
         const newHistory = [
-          ...history.filter(el => el.title !== item.title),
+          ...history
+            .filter(el => el.title !== item.title)
+            .slice(0, 25)
+            .reverse(),
           item,
         ].reverse()
         setHistory(newHistory)
