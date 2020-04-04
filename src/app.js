@@ -5,14 +5,27 @@ import { ThemeProvider } from 'styled-components'
 
 import homeContext from './context/home'
 import resultsContext from './context/results'
+import searchContext from './context/search'
 import { getHomeData, getDetailData } from './utils/api'
+import { getSuggestions } from './utils/auto-complete'
 
 import theme from './utils/theme'
 import Navigation from './navigation'
 
 const App = () => {
   const [homeData, setHomeData] = useState({})
+  const [keyword, setKeyword] = useState('')
   const [results, setResults] = useState({})
+
+  const searchValues = {
+    keyword: keyword,
+    setKeyword: k => {
+      setKeyword(k)
+    },
+    getSuggestions: (limit = 10) => {
+      return getSuggestions(keyword).slice(0, limit)
+    },
+  }
 
   const homeValues = {
     data: homeData,
@@ -57,11 +70,13 @@ const App = () => {
   return (
     <resultsContext.Provider value={resultsValues}>
       <homeContext.Provider value={homeValues}>
-        <ThemeProvider theme={theme}>
-          <SafeAreaProvider>
-            <Navigation />
-          </SafeAreaProvider>
-        </ThemeProvider>
+        <searchContext.Provider value={searchValues}>
+          <ThemeProvider theme={theme}>
+            <SafeAreaProvider>
+              <Navigation />
+            </SafeAreaProvider>
+          </ThemeProvider>
+        </searchContext.Provider>
       </homeContext.Provider>
     </resultsContext.Provider>
   )

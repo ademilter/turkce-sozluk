@@ -13,7 +13,6 @@ const SpecialCharacters = ({ onCharPress, ...props }) => {
       bg="softGray"
       flexDirection="row"
       alignItems="center"
-      borderRadius="normal"
       {...props}
     >
       {CHARACTERS.map((char, index) => (

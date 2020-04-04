@@ -1,14 +1,16 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useContext } from 'react'
 import { Animated, Keyboard } from 'react-native'
 import { Box, Input, Text, Button } from './shared'
 import { Search, Close } from './icons'
 import SpecialCharacters from './special-characters'
 
+import searchContext from '../context/search'
+
 import theme from '../utils/theme'
 
 const SearchBox = ({ onChangeFocus }) => {
+  const searchData = useContext(searchContext)
   const specialAnim = useRef(new Animated.Value(0)).current
-  const [value, setValue] = useState('')
   const [isFocus, setFocus] = useState(false)
 
   useEffect(() => {
@@ -27,17 +29,17 @@ const SearchBox = ({ onChangeFocus }) => {
   }, [specialAnim, isFocus, onChangeFocus])
 
   const onCancel = () => {
-    setValue('')
+    searchData.setKeyword('')
     setFocus(false)
     Keyboard.dismiss()
   }
   const onClear = () => {
-    setValue('')
+    searchData.setKeyword('')
   }
 
   return (
-    <Box flexDirection="column" alignItems="center">
-      <Box flexDirection="row" alignItems="center">
+    <Box flexDirection="column" alignItems="center" mx={-16}>
+      <Box flexDirection="row" alignItems="center" mx={16}>
         <Box position="relative" flex={1}>
           <Input
             // eslint-disable-next-line react-native/no-inline-styles
@@ -59,11 +61,11 @@ const SearchBox = ({ onChangeFocus }) => {
             placeholderTextColor="textMedium"
             pl={52}
             borderRadius="normal"
-            value={value}
+            value={searchData.keyword}
             onFocus={() => setFocus(true)}
-            onChangeText={text => setValue(text)}
+            onChangeText={text => searchData.setKeyword(text)}
           />
-          {value.length > 0 && (
+          {searchData.keyword.length > 0 && (
             <Button onPress={onClear} position="absolute" right={16} top={14}>
               <Close color={theme.colors.textDark} />
             </Button>
@@ -90,10 +92,7 @@ const SearchBox = ({ onChangeFocus }) => {
           inputRange: [0, 1],
           outputRange: [0, 48],
         })}
-        flex={1}
-        width="100%"
-        bg="softGray"
-        onCharPress={char => setValue(value + char)}
+        onCharPress={char => searchData.setKeyword(searchData.keyword + char)}
       />
     </Box>
   )

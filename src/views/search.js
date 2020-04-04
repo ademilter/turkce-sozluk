@@ -6,9 +6,11 @@ import { useFocusEffect } from '@react-navigation/native'
 import { Box } from '../components/shared'
 import SuggestionCard from '../components/suggestion-card'
 import SearchHistoryList from '../components/search-history-list'
+import SearchSuggestionList from '../components/search-suggestion-list'
 import HomeSearch from '../components/home-search'
 
 import homeContext from '../context/home'
+import searchContext from '../context/search'
 
 const DATA = [
   {
@@ -29,10 +31,23 @@ const DATA = [
 ]
 
 const SearchView = ({ navigation }) => {
+  const searchData = useContext(searchContext)
   const homeData = useContext(homeContext)
   const [isSearchFocus, setSearchFocus] = useState(false)
 
+  // useEffect(() => {
+  //   if (keyword.length >= 3) {
+  //     getSearchSuggestions()
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [keyword])
+
+  // const getSearchSuggestions = () => {
+  //   setSuggestions(getSuggestions(keyword))
+  // }
+
   useEffect(() => {
+    //console.log(getSuggestions('merhaba'))
     homeData.setData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -52,10 +67,23 @@ const SearchView = ({ navigation }) => {
       />
 
       {/* content */}
+      {/* mx={-16} */}
       <Box flex={1} bg="softRed" pt={isSearchFocus ? 48 : 26}>
         {isSearchFocus ? (
           <Box flex={1}>
-            <SearchHistoryList data={DATA} />
+            {searchData.keyword.length >= 3 ? (
+              <SearchSuggestionList
+                onPress={k =>
+                  navigation.navigate('Detail', {
+                    keyword: k,
+                  })
+                }
+                keyword={searchData.keyword}
+                data={searchData.getSuggestions()}
+              />
+            ) : (
+              <SearchHistoryList data={DATA} />
+            )}
           </Box>
         ) : (
           <Box px={16} py={40} flex={1}>

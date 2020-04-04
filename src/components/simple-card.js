@@ -16,9 +16,9 @@ const SimpleCard = ({ children, ...props }) => {
   )
 }
 
-const Title = ({ children }) => {
+const Title = ({ children, ...props }) => {
   return (
-    <Text fontSize={16} fontWeight="bold">
+    <Text fontSize={16} fontWeight="bold" {...props}>
       {children}
     </Text>
   )
