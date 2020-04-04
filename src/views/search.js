@@ -35,19 +35,7 @@ const SearchView = ({ navigation }) => {
   const homeData = useContext(homeContext)
   const [isSearchFocus, setSearchFocus] = useState(false)
 
-  // useEffect(() => {
-  //   if (keyword.length >= 3) {
-  //     getSearchSuggestions()
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [keyword])
-
-  // const getSearchSuggestions = () => {
-  //   setSuggestions(getSuggestions(keyword))
-  // }
-
   useEffect(() => {
-    //console.log(getSuggestions('merhaba'))
     homeData.setData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

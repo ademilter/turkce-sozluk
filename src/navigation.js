@@ -15,9 +15,6 @@ const Tab = createBottomTabNavigator()
 const HomeStack = createStackNavigator()
 
 const SearchStack = ({ route, navigation }) => {
-  useEffect(() => {
-    console.log('search stack route', route)
-  }, [route])
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -40,11 +37,7 @@ const SearchStack = ({ route, navigation }) => {
               shadowColor: 'transparent',
             },
             headerLeft: () => (
-              <Button
-                px={20}
-                height="100%"
-                onPress={() => navigation.navigate('Search')}
-              >
+              <Button px={20} height="100%" onPress={() => navigation.goBack()}>
                 <Left color={theme.colors.textDark} />
               </Button>
             ),

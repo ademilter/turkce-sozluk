@@ -58,7 +58,6 @@ const App = () => {
     getResults: async keyword => {
       getDetailData(keyword)
         .then(res => {
-          console.log('results values', res)
           setResults(res[0])
         })
         .catch(err => {
