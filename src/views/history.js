@@ -41,12 +41,14 @@ const HistoryView = ({ navigation }) => {
       </Box>
       <Box flex={1}>
         {history.history.length > 0 ? (
-          <SearchHistoryList
-            hasHeader={false}
-            chevron={true}
-            onPress={k => navigation.navigate('Detail', { keyword: k })}
-            data={history.history}
-          />
+          <Box flex={1} pb={20}>
+            <SearchHistoryList
+              hasHeader={false}
+              chevron={true}
+              onPress={k => navigation.navigate('Detail', { keyword: k })}
+              data={history.history}
+            />
+          </Box>
         ) : (
           <Box flex={1} justifyContent="center" alignItems="center">
             <RotateCcw height={48} width={48} color={theme.colors.textLight} />

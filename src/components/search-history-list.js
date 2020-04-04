@@ -35,6 +35,7 @@ const SearchHistoryList = ({
           </SimpleCard>
         </Box>
       )}
+      ListFooterComponent={<Box height={20} />}
       ListHeaderComponent={
         hasHeader ? (
           <Text color="textLight" mb={10}>

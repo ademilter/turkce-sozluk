@@ -4,7 +4,7 @@ const data = autocomplete.data.map((item, index) => ({ ...item, id: index }))
 
 const getSuggestions = keyword => {
   return data.filter(item =>
-    item.madde.includes(keyword.toLocaleLowerCase('tr')),
+    item.madde.startsWith(keyword.toLocaleLowerCase('tr')),
   )
 }
 

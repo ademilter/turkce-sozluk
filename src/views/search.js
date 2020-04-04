@@ -9,6 +9,7 @@ import SearchHistoryList from '../components/search-history-list'
 import SearchSuggestionList from '../components/search-suggestion-list'
 import HomeSearch from '../components/home-search'
 
+import historyContext from '../context/history'
 import homeContext from '../context/home'
 import searchContext from '../context/search'
 
@@ -33,10 +34,14 @@ const DATA = [
 const SearchView = ({ navigation }) => {
   const searchData = useContext(searchContext)
   const homeData = useContext(homeContext)
+  const historyData = useContext(historyContext)
   const [isSearchFocus, setSearchFocus] = useState(false)
 
   useEffect(() => {
     homeData.setData()
+    return () => {
+      searchData.setKeyword('')
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -70,7 +75,10 @@ const SearchView = ({ navigation }) => {
                 data={searchData.getSuggestions()}
               />
             ) : (
-              <SearchHistoryList data={DATA} />
+              <SearchHistoryList
+                onPress={k => navigation.navigate('Detail', { keyword: k })}
+                data={historyData.history}
+              />
             )}
           </Box>
         ) : (
