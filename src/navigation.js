@@ -37,7 +37,11 @@ const SearchStack = ({ route, navigation }) => {
               shadowColor: 'transparent',
             },
             headerLeft: () => (
-              <Button px={20} height="100%" onPress={() => navigation.goBack()}>
+              <Button
+                px={20}
+                height="100%"
+                onPress={() => navigation.navigate('Search')}
+              >
                 <Left color={theme.colors.textDark} />
               </Button>
             ),

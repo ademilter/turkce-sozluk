@@ -9,12 +9,14 @@ import ActionButton from '../components/action-button'
 import DetailSummaryItem from '../components/detail-summary-item'
 
 import resultsContext from '../context/results'
+import historyContext from '../context/history'
 
 import theme from '../utils/theme'
 
 function DetailView({ route }) {
   const keyword = route.params?.keyword
   const resultsData = useContext(resultsContext)
+  const history = useContext(historyContext)
 
   useFocusEffect(
     useCallback(() => {
@@ -23,13 +25,19 @@ function DetailView({ route }) {
   )
 
   useEffect(() => {
+    if (!history.history.find(el => el.title === keyword)) {
+      history.addToHistory(keyword)
+    }
     resultsData.getResults(keyword)
+    return () => {
+      resultsData.clearResults()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
-    <Box as={SafeAreaView} bg="softRed" flex={1}>
-      <Box as={ScrollView} p={16}>
+    <Box as={SafeAreaView} forceInset={{ top: 'never' }} bg="softRed" flex={1}>
+      <Box as={ScrollView} p={16} mt={0}>
         <Box>
           <Text fontSize={32} fontWeight="bold">
             {keyword}
@@ -53,7 +61,7 @@ function DetailView({ route }) {
             <ActionButton.Title>Türk İşaret Dili</ActionButton.Title>
           </ActionButton>
         </Box>
-        <Box mt={32}>
+        <Box mt={32} flex={1}>
           {(resultsData.data?.anlamlarListe ?? [1, 2, 3]).map(item => (
             <DetailSummaryItem
               key={item?.anlam_sira ?? item}

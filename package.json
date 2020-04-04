@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
+    "@react-native-community/async-storage": "^1.9.0",
     "@react-native-community/masked-view": "^0.1.7",
     "@react-navigation/bottom-tabs": "^5.1.1",
     "@react-navigation/native": "^5.0.9",
