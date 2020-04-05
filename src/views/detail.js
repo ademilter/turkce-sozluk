@@ -17,14 +17,13 @@ import {
 import ActionButton from '../components/action-button'
 import DetailSummaryItem from '../components/detail-summary-item'
 
-import favoriteContext from '../context/favorite'
-import resultsContext from '../context/results'
-import historyContext from '../context/history'
+import { favoriteContext, resultsContext, historyContext } from '../context'
 
 import theme from '../utils/theme'
 
 function DetailView({ route }) {
   const keyword = route.params?.keyword
+  const [isPlaying, setPlaying] = useState(false)
   const resultsData = useContext(resultsContext)
   const history = useContext(historyContext)
   const favorites = useContext(favoriteContext)
@@ -33,17 +32,17 @@ function DetailView({ route }) {
   useFocusEffect(
     useCallback(() => {
       StatusBar.setBarStyle('dark-content')
+      resultsData.getResults(keyword)
       return function() {
         resultsData.clearResults()
       }
-
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   )
 
   useEffect(() => {
     history.addToHistory(keyword)
-    resultsData.getResults(keyword)
+    //resultsData.getResults(keyword)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyword])
 
@@ -70,18 +69,23 @@ function DetailView({ route }) {
                   if (e) {
                     console.log('error loading track', e)
                   } else {
-                    track.play()
+                    setPlaying(true)
+                    track.play(s => {
+                      setPlaying(false)
+                    })
                   }
                 },
               )
-            }, 1000)}
+            }, 500)}
           >
             <SoundIcon
               width={24}
               height={24}
               color={
                 resultsData.seskod.length > 0
-                  ? theme.colors.textLight
+                  ? isPlaying
+                    ? theme.colors.red
+                    : theme.colors.textLight
                   : theme.colors.softGray
               }
             />
