@@ -12,4 +12,10 @@ const getDetailData = async k => {
   return await data
 }
 
-export { getDetailData, getHomeData }
+const getSoundCode = async k => {
+  const response = await fetch(`${BASE_URL}/yazim?ara=${k}`)
+  const data = await response.json()
+  return await data
+}
+
+export { getDetailData, getHomeData, getSoundCode }

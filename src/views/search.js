@@ -5,7 +5,7 @@ import { useFocusEffect } from '@react-navigation/native'
 
 import { Box } from '../components/shared'
 import SuggestionCard from '../components/suggestion-card'
-import SearchHistoryList from '../components/search-history-list'
+import SimpleItemList from '../components/simple-item-list'
 import SearchSuggestionList from '../components/search-suggestion-list'
 import HomeSearch from '../components/home-search'
 
@@ -75,7 +75,7 @@ const SearchView = ({ navigation }) => {
                 data={searchData.suggestions}
               />
             ) : (
-              <SearchHistoryList
+              <SimpleItemList
                 onPress={k => navigation.navigate('Detail', { keyword: k })}
                 data={historyData.history}
               />

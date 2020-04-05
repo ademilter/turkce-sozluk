@@ -5,7 +5,7 @@ import { useFocusEffect } from '@react-navigation/native'
 
 import { Box, Text, Button } from '../components/shared'
 import { Left, RotateCcw } from '../components/icons'
-import SearchHistoryList from '../components/search-history-list'
+import SimpleItemList from '../components/simple-item-list'
 import historyContext from '../context/history'
 
 import theme from '../utils/theme'
@@ -42,7 +42,7 @@ const HistoryView = ({ navigation }) => {
       <Box flex={1}>
         {history.history.length > 0 ? (
           <Box flex={1} pb={20}>
-            <SearchHistoryList
+            <SimpleItemList
               hasHeader={false}
               chevron={true}
               onPress={k => navigation.navigate('Detail', { keyword: k })}

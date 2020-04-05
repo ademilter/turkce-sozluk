@@ -6,7 +6,7 @@ import SimpleCard from './simple-card'
 import { Right } from './icons'
 import theme from '../utils/theme'
 
-const SearchHistoryList = ({
+const SimpleItemList = ({
   hasHeader = true,
   chevron = false,
   onPress = () => {},
@@ -21,7 +21,7 @@ const SearchHistoryList = ({
       renderItem={({ item }) => (
         <Box py={6}>
           <SimpleCard onPress={() => onPress(item.title)}>
-            <SimpleCard.Title pr={chevron ? 0 : 32}>
+            <SimpleCard.Title pr={!chevron ? 0 : 32}>
               {item.title}
             </SimpleCard.Title>
             {chevron && (
@@ -49,4 +49,4 @@ const SearchHistoryList = ({
   )
 }
 
-export default SearchHistoryList
+export default SimpleItemList

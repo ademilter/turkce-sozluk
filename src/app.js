@@ -4,16 +4,21 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import AsyncStorage from '@react-native-community/async-storage'
 import { ThemeProvider } from 'styled-components'
 
-import throttle from 'lodash/throttle'
+import debounce from 'lodash/debounce'
 
+import favoriteContext from './context/favorite'
 import homeContext from './context/home'
 import resultsContext from './context/results'
 import searchContext from './context/search'
 import historyContext from './context/history'
-import { getHomeData, getDetailData } from './utils/api'
+
+import { getHomeData, getDetailData, getSoundCode } from './utils/api'
 import { getSuggestions } from './utils/auto-complete'
 
+import parseResults from './utils/parse-result'
+
 import theme from './utils/theme'
+
 import Navigation from './navigation'
 
 const App = () => {
@@ -21,14 +26,20 @@ const App = () => {
   const [keyword, setKeyword] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [results, setResults] = useState({})
+  const [seskod, setSesKod] = useState('')
   const [history, setHistory] = useState([])
+  const [favorites, setFavorites] = useState([])
 
-  const throttledSearch = useCallback(
-    throttle(k => getSuggestions(k).slice(0, 12), 500),
+  const debouncedSearch = useCallback(
+    debounce(k => setSuggestions(getSuggestions(k).slice(0, 12)), 500, {
+      leading: true,
+      maxWait: 600,
+    }),
     [],
   )
 
   useEffect(() => {
+    //history
     AsyncStorage.getItem('history')
       .then(response => {
         if (response != null) {
@@ -43,6 +54,22 @@ const App = () => {
       .catch(err => {
         console.log('error when getting history from async storage', err)
       })
+
+    //favorites
+    AsyncStorage.getItem('favorites')
+      .then(response => {
+        if (response != null) {
+          return JSON.parse(response)
+        } else {
+          return { data: [] }
+        }
+      })
+      .then(result => {
+        setFavorites(result.data)
+      })
+      .catch(err => {
+        console.log('error when getting favorites from async storage', err)
+      })
   }, [])
 
   const searchValues = {
@@ -51,25 +78,50 @@ const App = () => {
     setKeyword: k => {
       setKeyword(k)
       if (k.length >= 3) {
-        setSuggestions(throttledSearch(k))
+        debouncedSearch(k)
       } else {
         setSuggestions([])
       }
     },
   }
 
+  const favoritesValues = {
+    favorites: favorites,
+    addToFavorites: async k => {
+      try {
+        const item = { id: Date.now() + '', title: k }
+        const newFavorites = [item, ...favorites]
+        setFavorites(newFavorites)
+        await AsyncStorage.setItem(
+          'favorites',
+          JSON.stringify({ data: newFavorites }),
+        )
+      } catch {
+        console.log('error in favorite async storage add')
+      }
+    },
+    removeFromFavorites: async k => {
+      try {
+        const newFavorites = favorites.filter(f => f.title !== k)
+        setFavorites(newFavorites)
+        await AsyncStorage.setItem(
+          'favorites',
+          JSON.stringify({ data: newFavorites }),
+        )
+      } catch {
+        console.log('error in favorite async storage remove')
+      }
+    },
+  }
   const historyValues = {
     history: history,
     addToHistory: async k => {
       try {
         const item = { id: Date.now() + '', title: k }
         const newHistory = [
-          ...history
-            .filter(el => el.title !== item.title)
-            .slice(0, 25)
-            .reverse(),
           item,
-        ].reverse()
+          ...history.filter(el => el.title !== item.title).slice(0, 25),
+        ]
         setHistory(newHistory)
         await AsyncStorage.setItem(
           'history',
@@ -106,34 +158,47 @@ const App = () => {
 
   const resultsValues = {
     data: results,
+    seskod: seskod,
     clearResults: () => {
       setResults({})
+      setSesKod('')
     },
-    getResults: async keyword => {
-      getDetailData(keyword)
+    getResults: async k => {
+      setResults({})
+      setSesKod('')
+      getDetailData(k)
         .then(res => {
-          setResults(res[0])
+          setResults(parseResults(res[0]))
         })
         .catch(err => {
           console.log('error when fetching results: ', err)
+        })
+      getSoundCode(k)
+        .then(res => {
+          setSesKod(res[0].seskod ?? '')
+        })
+        .catch(err => {
+          console.log('error when fetching sound code: ', err)
         })
     },
   }
 
   return (
-    <historyContext.Provider value={historyValues}>
-      <resultsContext.Provider value={resultsValues}>
-        <homeContext.Provider value={homeValues}>
-          <searchContext.Provider value={searchValues}>
-            <ThemeProvider theme={theme}>
-              <SafeAreaProvider>
-                <Navigation />
-              </SafeAreaProvider>
-            </ThemeProvider>
-          </searchContext.Provider>
-        </homeContext.Provider>
-      </resultsContext.Provider>
-    </historyContext.Provider>
+    <favoriteContext.Provider value={favoritesValues}>
+      <historyContext.Provider value={historyValues}>
+        <resultsContext.Provider value={resultsValues}>
+          <homeContext.Provider value={homeValues}>
+            <searchContext.Provider value={searchValues}>
+              <ThemeProvider theme={theme}>
+                <SafeAreaProvider>
+                  <Navigation />
+                </SafeAreaProvider>
+              </ThemeProvider>
+            </searchContext.Provider>
+          </homeContext.Provider>
+        </resultsContext.Provider>
+      </historyContext.Provider>
+    </favoriteContext.Provider>
   )
 }
 
