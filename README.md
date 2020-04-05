@@ -12,6 +12,7 @@ Bu mobil uygulama TDK'nın resmî olmayan Türkçe Sözlük uygulamasıdır.
 #### Development
 
 - Adem ilter
+- Ali Emir Sen
 
 
 #### Projeye ait video dersler
