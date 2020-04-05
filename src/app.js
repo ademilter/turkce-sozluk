@@ -1,9 +1,11 @@
 import 'react-native-gesture-handler'
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import AsyncStorage from '@react-native-community/async-storage'
 import { ThemeProvider } from 'styled-components'
 
+import { SignContent } from './components/sign-language'
+import BottomSheet from 'reanimated-bottom-sheet'
 import debounce from 'lodash/debounce'
 
 import favoriteContext from './context/favorite'
@@ -22,11 +24,14 @@ import theme from './utils/theme'
 import Navigation from './navigation'
 
 const App = () => {
+  const [sign_sheet_status, set_sign_sheet_status] = useState(false)
+  const sign_sheet_ref = useRef()
   const [homeData, setHomeData] = useState({})
   const [keyword, setKeyword] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [results, setResults] = useState({})
   const [seskod, setSesKod] = useState('')
+  const [signKeyword, setSignKeyword] = useState('')
   const [history, setHistory] = useState([])
   const [favorites, setFavorites] = useState([])
 
@@ -159,9 +164,26 @@ const App = () => {
   const resultsValues = {
     data: results,
     seskod: seskod,
+    signsheet: sign_sheet_status,
     clearResults: () => {
       setResults({})
       setSesKod('')
+      sign_sheet_ref.current.snapTo(1)
+      sign_sheet_ref.current.snapTo(1)
+      setSignKeyword('')
+      set_sign_sheet_status(false)
+    },
+    openSignSheet: k => {
+      sign_sheet_ref.current.snapTo(0) //open
+      sign_sheet_ref.current.snapTo(0) //open
+      setSignKeyword(k)
+      set_sign_sheet_status(true)
+    },
+    closeSignSheet: k => {
+      sign_sheet_ref.current.snapTo(1) //close
+      sign_sheet_ref.current.snapTo(1) //close
+      setSignKeyword('')
+      set_sign_sheet_status(false)
     },
     getResults: async k => {
       setResults({})
@@ -175,7 +197,7 @@ const App = () => {
         })
       getSoundCode(k)
         .then(res => {
-          setSesKod(res[0].seskod ?? '')
+          setSesKod(res?.[0]?.seskod ?? '')
         })
         .catch(err => {
           console.log('error when fetching sound code: ', err)
@@ -192,6 +214,16 @@ const App = () => {
               <ThemeProvider theme={theme}>
                 <SafeAreaProvider>
                   <Navigation />
+                  <BottomSheet
+                    ref={sign_sheet_ref}
+                    onCloseEnd={() => {
+                      setSignKeyword('')
+                      set_sign_sheet_status(false)
+                    }}
+                    snapPoints={[302, 0]}
+                    initialSnap={1}
+                    renderContent={() => <SignContent keyword={signKeyword} />}
+                  />
                 </SafeAreaProvider>
               </ThemeProvider>
             </searchContext.Provider>

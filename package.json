@@ -30,6 +30,7 @@
     "react-native-shimmer-placeholder": "^1.0.35",
     "react-native-sound": "^0.11.0",
     "react-native-svg": "^12.0.3",
+    "reanimated-bottom-sheet": "^1.0.0-alpha.19",
     "styled-components": "^5.0.1",
     "styled-system": "^5.1.5"
   },

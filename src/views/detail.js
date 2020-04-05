@@ -13,6 +13,7 @@ import {
   Favorite,
   FavoriteSolid,
 } from '../components/icons'
+
 import ActionButton from '../components/action-button'
 import DetailSummaryItem from '../components/detail-summary-item'
 
@@ -32,6 +33,10 @@ function DetailView({ route }) {
   useFocusEffect(
     useCallback(() => {
       StatusBar.setBarStyle('dark-content')
+      return function() {
+        resultsData.clearResults()
+      }
+
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   )
@@ -97,7 +102,15 @@ function DetailView({ route }) {
               <Favorite width={24} height={24} color={theme.colors.textLight} />
             )}
           </ActionButton>
-          <ActionButton disabled={!resultsData.data} ml="auto">
+          <ActionButton
+            disabled={keyword ? false : true}
+            ml="auto"
+            onPress={() =>
+              resultsData.signsheet
+                ? resultsData.closeSignSheet()
+                : resultsData.openSignSheet(keyword)
+            }
+          >
             <Hand width={24} height={24} color={theme.colors.textLight} />
             <ActionButton.Title>Türk İşaret Dili</ActionButton.Title>
           </ActionButton>
