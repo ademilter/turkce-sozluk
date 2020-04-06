@@ -7,8 +7,12 @@ const Text = styled(T)(
     typography,
     space,
     color,
-    size
-  )
+    size,
+  ),
 )
+
+Text.defaultProps = {
+  color: 'textDark',
+}
 
 export default Text

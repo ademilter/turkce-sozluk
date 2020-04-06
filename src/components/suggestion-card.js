@@ -1,28 +1,26 @@
 import React from 'react'
+import { Text, Box, Card, Placeholder } from './shared'
 
-import Text from './text'
-import Box from './box'
-import { CardContainer, CardSummary, CardTitle } from './card'
-import LoaderText from './LoaderText'
-
-function SuggestionCard({ title, onPress, data, ...props }) {
+const SuggestionCard = ({ title, onPress, data, ...props }) => {
   return (
     <Box {...props}>
       <Text color="textLight">{title}</Text>
 
-      <CardContainer mt={10} onPress={onPress}>
-        {data ? (
-          <>
-            <CardTitle>{data.madde}</CardTitle>
-            <CardSummary>{data.anlam}</CardSummary>
-          </>
-        ) : (
-          <Box>
-            <LoaderText />
-            <LoaderText width={200} mt={10} />
-          </Box>
-        )}
-      </CardContainer>
+      <Card mt={10} disabled={data ? false : true} onPress={onPress}>
+        <>
+          <Placeholder autoRun visible={data ? true : false}>
+            <Card.Title>{data?.madde}</Card.Title>
+          </Placeholder>
+          <Placeholder
+            autoRun
+            visible={data ? true : false}
+            mt={16}
+            width={240}
+          >
+            <Card.Summary>{data?.anlam}</Card.Summary>
+          </Placeholder>
+        </>
+      </Card>
     </Box>
   )
 }

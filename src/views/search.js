@@ -1,49 +1,54 @@
-import * as React from 'react'
+import React, { useState, useEffect, useCallback, useContext } from 'react'
 import { StatusBar } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import { useFocusEffect } from '@react-navigation/native'
 
-import Box from '../components/box'
+import { Box } from '../components/shared'
 import SuggestionCard from '../components/suggestion-card'
-import SearchHistoryList from '../components/search-history-list'
+import SimpleItemList from '../components/simple-item-list'
+import SearchSuggestionList from '../components/search-suggestion-list'
 import HomeSearch from '../components/home-search'
+
+import historyContext from '../context/history'
+import homeContext from '../context/home'
+import searchContext from '../context/search'
 
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
     title: 'First Item 1',
-    summary: 'açıklama 1'
+    summary: 'açıklama 1',
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
     title: 'Second Item 2',
-    summary: 'açıklama 2'
+    summary: 'açıklama 2',
   },
   {
     id: '58694a0f-3da1-471f-bd96-145571e29d72',
     title: 'Third Item 3',
-    summary: 'açıklama 3'
-  }
+    summary: 'açıklama 3',
+  },
 ]
 
-function SearchView({ navigation }) {
-  const [isSearchFocus, setSearchFocus] = React.useState(false)
-  const [homeData, setHomeData] = React.useState(null)
+const SearchView = ({ navigation }) => {
+  const searchData = useContext(searchContext)
+  const homeData = useContext(homeContext)
+  const historyData = useContext(historyContext)
+  const [isSearchFocus, setSearchFocus] = useState(false)
 
-  const getHomeData = async () => {
-    const response = await fetch('https://sozluk.gov.tr/icerik')
-    const data = await response.json()
-    setHomeData(data)
-  }
-
-  React.useEffect(() => {
-    getHomeData()
+  useEffect(() => {
+    homeData.setData()
+    return () => {
+      searchData.setKeyword('')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       StatusBar.setBarStyle(isSearchFocus ? 'dark-content' : 'light-content')
-    }, [isSearchFocus])
+    }, [isSearchFocus]),
   )
 
   return (
@@ -55,29 +60,45 @@ function SearchView({ navigation }) {
       />
 
       {/* content */}
-      <Box flex={1} bg="softRed" pt={isSearchFocus ? 0 : 26}>
+      {/* mx={-16} */}
+      <Box flex={1} bg="softRed" pt={isSearchFocus ? 48 : 26}>
         {isSearchFocus ? (
           <Box flex={1}>
-            <SearchHistoryList data={DATA} />
+            {searchData.keyword.length >= 3 ? (
+              <SearchSuggestionList
+                onPress={k =>
+                  navigation.navigate('Detail', {
+                    keyword: k,
+                  })
+                }
+                keyword={searchData.keyword}
+                data={searchData.suggestions}
+              />
+            ) : (
+              <SimpleItemList
+                onPress={k => navigation.navigate('Detail', { keyword: k })}
+                data={historyData.history}
+              />
+            )}
           </Box>
         ) : (
           <Box px={16} py={40} flex={1}>
             <SuggestionCard
-              data={homeData?.kelime[0]}
+              data={homeData.data?.kelime}
               title="Bir Kelime"
               onPress={() =>
                 navigation.navigate('Detail', {
-                  keyword: homeData?.kelime[0].madde
+                  keyword: homeData.data?.kelime?.madde,
                 })
               }
             />
             <SuggestionCard
               mt={40}
-              data={homeData?.atasoz[0]}
+              data={homeData.data?.atasoz}
               title="Bir Deyim - Atasözü"
               onPress={() =>
                 navigation.navigate('Detail', {
-                  keyword: homeData?.atasoz[0].madde
+                  keyword: homeData.data?.atasoz?.madde,
                 })
               }
             />

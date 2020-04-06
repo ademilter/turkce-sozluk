@@ -7,13 +7,13 @@ import {
   typography,
   space,
   shadow,
-  borderRadius
+  borderRadius,
 } from 'styled-system'
 
-import theme from '../utils/theme'
+import theme from '../../utils/theme'
 
 const Input = styled(TextInput).attrs(props => ({
-  placeholderTextColor: theme.colors[props.placeholderTextColor] || '#999'
+  placeholderTextColor: theme.colors[props.placeholderTextColor] || '#999',
 }))(
   compose(
     borderRadius,
@@ -21,8 +21,8 @@ const Input = styled(TextInput).attrs(props => ({
     space,
     color,
     size,
-    shadow
-  )
+    shadow,
+  ),
 )
 
 export default Input

@@ -1,10 +1,8 @@
 import React from 'react'
 
-import Text from './text'
-import Box from './box'
-import Button from './button'
+import { Text, Box, Button } from '.'
 
-export function CardContainer({ children, ...props }) {
+const Card = ({ children, ...props }) => {
   return (
     <Button bg="white" borderRadius="normal" py={16} px={12} {...props}>
       <Box flex={1} borderLeftWidth={3} borderLeftColor="light" pl={12}>
@@ -14,7 +12,7 @@ export function CardContainer({ children, ...props }) {
   )
 }
 
-export function CardTitle({ children }) {
+const Title = ({ children }) => {
   return (
     <Text fontSize={18} fontWeight="bold">
       {children}
@@ -22,10 +20,15 @@ export function CardTitle({ children }) {
   )
 }
 
-export function CardSummary({ children }) {
+const Summary = ({ children }) => {
   return (
     <Text color="textMedium" fontSize={14} mt={8}>
       {children}
     </Text>
   )
 }
+
+Card.Title = Title
+Card.Summary = Summary
+
+export default Card
