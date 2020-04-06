@@ -8,6 +8,7 @@ import throttle from 'lodash/throttle'
 
 import { Box, Text } from '../components/shared'
 import {
+  SoundSolid as SoundIconSolid,
   Sound as SoundIcon,
   Hand,
   Favorite,
@@ -32,7 +33,6 @@ function DetailView({ route }) {
   useFocusEffect(
     useCallback(() => {
       StatusBar.setBarStyle('dark-content')
-      resultsData.getResults(keyword)
       return function() {
         resultsData.clearResults()
       }
@@ -40,8 +40,19 @@ function DetailView({ route }) {
     }, []),
   )
 
+  useFocusEffect(
+    useCallback(() => {
+      resultsData.getResults(keyword)
+      return () => {
+        resultsData.clearResults()
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [keyword]),
+  )
+
   useEffect(() => {
     history.addToHistory(keyword)
+    //resultsData.getResults(keyword)
     //resultsData.getResults(keyword)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyword])
@@ -78,17 +89,19 @@ function DetailView({ route }) {
               )
             }, 500)}
           >
-            <SoundIcon
-              width={24}
-              height={24}
-              color={
-                resultsData.seskod.length > 0
-                  ? isPlaying
-                    ? theme.colors.red
-                    : theme.colors.textLight
-                  : theme.colors.softGray
-              }
-            />
+            {isPlaying ? (
+              <SoundIconSolid width={24} height={24} color={theme.colors.red} />
+            ) : (
+              <SoundIcon
+                width={24}
+                height={24}
+                color={
+                  resultsData.seskod.length > 0
+                    ? theme.colors.textLight
+                    : theme.colors.softGray
+                }
+              />
+            )}
           </ActionButton>
           <ActionButton
             ml={12}
@@ -109,14 +122,26 @@ function DetailView({ route }) {
           <ActionButton
             disabled={keyword ? false : true}
             ml="auto"
-            onPress={() =>
+            onPress={throttle(() => {
               resultsData.signsheet
                 ? resultsData.closeSignSheet()
                 : resultsData.openSignSheet(keyword)
-            }
+            }, 500)}
           >
-            <Hand width={24} height={24} color={theme.colors.textLight} />
-            <ActionButton.Title>Türk İşaret Dili</ActionButton.Title>
+            <Hand
+              width={24}
+              height={24}
+              color={
+                resultsData.signsheet
+                  ? theme.colors.red
+                  : theme.colors.textLight
+              }
+            />
+            <ActionButton.Title
+              color={resultsData.signsheet ? 'red' : 'textLight'}
+            >
+              Türk İşaret Dili
+            </ActionButton.Title>
           </ActionButton>
         </Box>
         <Box mt={32} flex={1}>
