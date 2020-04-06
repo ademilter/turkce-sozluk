@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { Text, Button } from './shared'
 
 const SimpleCard = ({ children, ...props }) => {

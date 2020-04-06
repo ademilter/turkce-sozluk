@@ -4,7 +4,7 @@ import SafeAreaView from 'react-native-safe-area-view'
 import { useFocusEffect } from '@react-navigation/native'
 
 import { Box, Text, Button } from '../components/shared'
-import { Left, RotateCcw } from '../components/icons'
+import { Left, RotateCcw, Trash } from '../components/icons'
 import SimpleItemList from '../components/simple-item-list'
 import historyContext from '../context/history'
 
@@ -41,8 +41,35 @@ const HistoryView = ({ navigation }) => {
       </Box>
       <Box flex={1}>
         {history.history.length > 0 ? (
-          <Box flex={1} pb={20}>
+          <Box flex={1} pt={20} pb={40}>
             <SimpleItemList
+              ListFooterComponent={() => (
+                <Box py={30} mb={20}>
+                  <Button
+                    height={48}
+                    bg="red"
+                    borderRadius="normal"
+                    // eslint-disable-next-line react-native/no-inline-styles
+                    style={{
+                      shadowColor: theme.colors.red,
+                      shadowOpacity: 0.32,
+                      shadowRadius: 12,
+                      shadowOffset: {
+                        width: 0,
+                        height: 4,
+                      },
+                    }}
+                    onPress={() => history.clearHistory()}
+                  >
+                    <Box pb={2}>
+                      <Trash color="white" width={18} height={21} />
+                    </Box>
+                    <Text ml={6} color="white" fontWeight="bold">
+                      Geçmişi Temizle
+                    </Text>
+                  </Button>
+                </Box>
+              )}
               hasHeader={false}
               chevron={true}
               onPress={k => navigation.navigate('Detail', { keyword: k })}

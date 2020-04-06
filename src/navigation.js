@@ -42,7 +42,7 @@ const SearchStack = ({ route, navigation }) => {
                 height="100%"
                 onPress={() => navigation.navigate('Search')}
               >
-                <Left color={theme.colors.textDark} />
+                <Left width={24} height={24} color={theme.colors.textDark} />
               </Button>
             ),
             headerRight: () => (
@@ -51,7 +51,7 @@ const SearchStack = ({ route, navigation }) => {
                 height="100%"
                 onPress={() => navigation.navigate('Search')}
               >
-                <More color={theme.colors.textDark} />
+                <More height={24} width={24} color={theme.colors.textDark} />
               </Button>
             ),
           }
