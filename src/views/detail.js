@@ -13,22 +13,41 @@ import {
   Hand,
   Favorite,
   FavoriteSolid,
+  Right,
 } from '../components/icons'
 
+import DetailFocusBar from '../components/detail-focus-bar'
 import ActionButton from '../components/action-button'
 import DetailSummaryItem from '../components/detail-summary-item'
+import SimpleCard from '../components/simple-card'
 
 import { favoriteContext, resultsContext, historyContext } from '../context'
 
+const tabs = [
+  {
+    id: 'anlamlar',
+    title: 'Açıklama',
+  },
+  {
+    id: 'atasozu',
+    title: ' Atasözleri & Deyimler',
+  },
+  {
+    id: 'birlesikler',
+    title: 'Birleşik Kelimeler',
+  },
+]
+
 import theme from '../utils/theme'
 
-function DetailView({ route }) {
+function DetailView({ route, navigation }) {
   const keyword = route.params?.keyword
   const [isPlaying, setPlaying] = useState(false)
   const resultsData = useContext(resultsContext)
   const history = useContext(historyContext)
   const favorites = useContext(favoriteContext)
   const isFavorited = favorites.favorites.find(f => f.title === keyword)
+  const [selectedTab, setSelectedTab] = useState(tabs[0].id)
 
   useFocusEffect(
     useCallback(() => {
@@ -52,14 +71,19 @@ function DetailView({ route }) {
 
   useEffect(() => {
     history.addToHistory(keyword)
-    //resultsData.getResults(keyword)
-    //resultsData.getResults(keyword)
+    setSelectedTab(tabs[0].id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyword])
 
   return (
     <Box as={SafeAreaView} forceInset={{ top: 'never' }} bg="softRed" flex={1}>
+      <DetailFocusBar
+        onPress={id => setSelectedTab(id)}
+        tabs={tabs}
+        selected={selectedTab}
+      />
       <Box as={ScrollView} p={16} mt={0}>
+        {/* Kelime */}
         <Box>
           <Text fontSize={32} fontWeight="bold">
             {keyword}
@@ -69,6 +93,7 @@ function DetailView({ route }) {
             {resultsData.data?.lisan ?? ''}
           </Text>
         </Box>
+        {/* Action Buttons */}
         <Box flexDirection="row" mt={24}>
           <ActionButton
             disabled={resultsData.seskod.length === 0}
@@ -144,15 +169,67 @@ function DetailView({ route }) {
             </ActionButton.Title>
           </ActionButton>
         </Box>
-        <Box mt={32} flex={1}>
-          {(resultsData.data?.anlamlar ?? [1, 2, 3]).map(item => (
-            <DetailSummaryItem
-              key={item?.id ?? item}
-              data={typeof item === 'number' ? undefined : item}
-              border={(item.anlam_sira ?? item) !== '1'}
-            />
-          ))}
-        </Box>
+        {/* Icerik */}
+
+        {/* Anlamlar */}
+        {selectedTab === tabs[0].id && (
+          <Box mt={32} flex={1}>
+            {(resultsData.data?.anlamlar ?? [1, 2, 3]).map(item => (
+              <DetailSummaryItem
+                key={item?.id ?? item}
+                data={typeof item === 'number' ? undefined : item}
+                border={(item.anlam_sira ?? item) !== '1'}
+              />
+            ))}
+            <Box height={40} />
+          </Box>
+        )}
+        {/* Atasozu */}
+        {selectedTab === tabs[1].id && (
+          <Box mt={32 - 6} flex={1}>
+            {(resultsData.data?.atasozu ?? []).map(item => (
+              <Box key={item.id} py={6}>
+                <SimpleCard
+                  onPress={() => {
+                    navigation.navigate('Detail', { keyword: item.title })
+                  }}
+                >
+                  <SimpleCard.Title pr={32}>{item.title}</SimpleCard.Title>
+                  <Right
+                    marginLeft="auto"
+                    height={18}
+                    width={18}
+                    color={theme.colors.red}
+                  />
+                </SimpleCard>
+              </Box>
+            ))}
+            <Box height={40} />
+          </Box>
+        )}
+        {/* Birlesikler */}
+        {selectedTab === tabs[2].id && (
+          <Box mt={32 - 6} flex={1}>
+            {(resultsData.data?.birlesikler ?? []).map(item => (
+              <Box key={item.id} py={6}>
+                <SimpleCard
+                  onPress={() => {
+                    navigation.navigate('Detail', { keyword: item.title })
+                  }}
+                >
+                  <SimpleCard.Title pr={32}>{item.title}</SimpleCard.Title>
+                  <Right
+                    marginLeft="auto"
+                    height={18}
+                    width={18}
+                    color={theme.colors.red}
+                  />
+                </SimpleCard>
+              </Box>
+            ))}
+            <Box height={40} />
+          </Box>
+        )}
       </Box>
     </Box>
   )

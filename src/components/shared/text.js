@@ -11,4 +11,8 @@ const Text = styled(T)(
   ),
 )
 
+Text.defaultProps = {
+  color: 'textDark',
+}
+
 export default Text

@@ -31,7 +31,9 @@ const SearchStack = ({ route, navigation }) => {
         component={DetailView}
         options={({ route, navigation }) => {
           return {
-            title: route.params?.title,
+            title:
+              (route.params?.keyword ?? '').slice(0, 15) +
+              ((route.params?.keyword ?? '').length > 15 ? '...' : ''),
             headerStyle: {
               backgroundColor: theme.colors.softRed,
               shadowColor: 'transparent',
