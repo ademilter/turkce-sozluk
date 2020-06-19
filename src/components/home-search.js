@@ -13,29 +13,16 @@ function HomeSearch({ isSearchFocus, onSearchFocus }) {
   const [heroHeight] = React.useState(new Animated.Value(HERO_HEIGHT))
 
   React.useEffect(() => {
-    if (isSearchFocus) {
-      // bg-opacity
+    // bg-opacity
       Animated.timing(bgOpacity, {
-        toValue: 0,
+        toValue: isSearchFocus ? 0 : 1,
         duration: 230
       }).start()
       // hero-height
       Animated.timing(heroHeight, {
-        toValue: 52 + 32,
+        toValue: isSearchFocus ? 52 + 32 : HERO_HEIGHT,
         duration: 230
       }).start()
-    } else {
-      // bg-opacity
-      Animated.timing(bgOpacity, {
-        toValue: 1,
-        duration: 230
-      }).start()
-      // hero-height
-      Animated.timing(heroHeight, {
-        toValue: HERO_HEIGHT,
-        duration: 230
-      }).start()
-    }
   }, [bgOpacity, heroHeight, isSearchFocus])
 
   return (
